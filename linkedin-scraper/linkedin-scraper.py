@@ -31,7 +31,7 @@ class GetLinkedinData:
         return new_arr
 
     def open_user_page(self):
-        self._driver.get('https://www.linkedin.com/in/{}'.format(self._username))
+        self._driver.get('https://www.linkedin.com/in/{}/details/experience'.format(self._username))
 
         cookie_list = self.get_cookies('linkedin_cookies.csv')
         for cookie in cookie_list:
@@ -52,11 +52,7 @@ class GetLinkedinData:
     def get_experiences(self):
         position_arr = []
         print('getting experiences..')
-        positions = self._driver.find_elements(By.XPATH, "div[@class='pvs-entity pvs-entity--padded pvs-list__item--no-padding-when-nested']\
-                                                         /div[@class='display-flex flex-column full-width align-self-center']\
-                                                         /div\
-                                                         /div[@class='display-flex flex-column full-width']\
-                                                         /div/span/span[@aria-hidden='true']")
+        positions = self._driver.find_elements(By.XPATH, "//span[@class='visually-hidden']")  # this works
 
         for position in positions:
             print(position.text)
@@ -70,44 +66,10 @@ class GetLinkedinData:
 
         print(position_arr)
 
-        # exp_index = position_arr.index('Experience')
-        # for i in range(exp_index):
-        #     position_arr.pop(0)
-        #
-        # edu_index = position_arr.index('Education')
-        # l = len(position_arr)
-        # for i in range(l - edu_index + 1):
-        #     position_arr.pop(edu_index-1)
-        #
-        # experience = {
-        #     'positions': [],
-        #     'organisations': [],
-        #     'commitment': [],
-        #     'date_duration': [],
-        # }
-        #
-        # counter = 1
-        # for index, item in enumerate(position_arr):
-        #     if index == 0:
-        #         continue
-        #     if counter == 1:
-        #         experience['positions'].append(item)
-        #         counter += 1
-        #     elif counter == 2:
-        #         experience['organisations'].append(item)
-        #         counter += 1
-        #     elif counter == 3:
-        #         experience['commitment'].append(item)
-        #         counter += 1
-        #     elif counter == 4:
-        #         experience['date_duration'].append(item)
-        #         counter = 1
 
-
-        # print(experience)
-
-
-g = GetLinkedinData('amandalowyx')
+# g = GetLinkedinData('rvi-test-491644253')
+# g = GetLinkedinData('js-poh')
+g = GetLinkedinData('dinghanlim')
 g.open_user_page()
 g.get_experiences()
 g.close_driver()
